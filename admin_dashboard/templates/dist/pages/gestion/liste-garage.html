@@ -1,0 +1,87 @@
+{% extends 'dist/base.html' %}
+{% load static %}
+{% block content %}
+
+   <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title">
+                <span
+                  class="page-title-icon bg-gradient-primary text-white me-2"
+                >
+                  <i class="mdi mdi-home"></i>
+                </span>
+                Dashboard
+              </h3>
+              <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <span></span>Liste des garages
+                    <i
+                      class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"
+                    ></i>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+           
+           
+            <div class="row">
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Liste des garages</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            
+                            <th>Nom garage</th>
+                            <th>Addresse</th>
+                            <th>Horaire</th>
+                            <th>Telephone</th>
+                            <th>Email</th>
+
+                          </tr>
+                        </thead>
+                        {% for garage in garages %}
+                        <tbody>
+                          <tr>
+                            <td>
+                              <img
+                                src="{{ garage.logo_garage.url }}"
+                                class="me-2"
+                                alt="image"
+                              />
+                              {{ garage.name }}
+                            </td>
+                            <td>{{ garage.adresse }}</td>
+                            <td>
+                              <label class="badge badge-gradient-success"
+                                >{{garage.horaire}}</label
+                              >
+                            </td>
+                            <td>+225 {{garage.telephone}}</td>
+                            <td>{{garage.email}}</td>
+                            <td><a class="btn btn-gradient-primary" href="{% url 'detail_garage' garage.id  %}">Consulter</a></td>
+                          </tr>
+                        </tbody>
+                        {% endfor %}
+                         {% if messages %}
+  <div>
+    {% for message in messages %}
+    <ul>
+      <li>{{message}}</li>
+    </ul>
+    {% endfor %}
+  </div>
+  {% endif %}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+         
+{% endblock content %}

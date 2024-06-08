@@ -1,0 +1,26 @@
+{% extends 'dist/base.html' %} {% block content %}
+<div class="container">
+  <h2>Assigner une voiture à un garage</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label class="col-form-label" for="garage">Sélectionner un garage:</label>
+      <select class="form-control" id="garage" name="garage">
+        {% for garage in garages %}
+        <option value="{{ garage.id }}">{{ garage.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Assigner</button>
+  </form>
+  {% if messages %}
+  <div>
+    {% for message in messages %}
+    <ul>
+      <li>{{message}}</li>
+    </ul>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

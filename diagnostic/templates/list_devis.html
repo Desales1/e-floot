@@ -1,0 +1,60 @@
+{% extends 'dist/base.html' %}
+{% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white me-2">
+          <i class="mdi mdi-file-document-outline"></i>
+        </span>
+        Devis et reçus
+      </h3>
+      <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">
+            <span></span>Liste des devis
+            <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Liste des devis</h4>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Titre</th>
+                    <th>Diagnostic</th>
+                    <th>Commentaire</th>
+                    <th>Total Prix</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for devis in devis %}
+                  <tr>
+                    <td>{{ devis.title }}</td>
+                    <td>{{ devis.diagnostic }}</td>
+                    <td>{{ devis.commentaire }}</td>
+                    <td>{{ devis.total_prix }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="4">Aucun devis trouvé.</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

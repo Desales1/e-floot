@@ -1,0 +1,191 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login Garage</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/ti-icons/css/themify-icons.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/font-awesome/css/font-awesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Connexion garage</h4>
+                <form method="post" action="{% url 'login_garage' %}">
+                  {% csrf_token %}
+                  <div>
+                    <label for="username">Nom d'utilisateur:</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      name="username"
+                      id="username"
+                      required
+                    />
+                  </div>
+                  <div id="email-field" style="display: none">
+                    <label for="email">Email:</label>
+                    <input
+                      class="form-control"
+                      type="email"
+                      name="email"
+                      id="email"
+                    />
+                  </div>
+                  <div id="current-password-field" style="display: none">
+                    <label for="current_password">Mot de passe actuel:</label>
+                    <input
+                      class="form-control"
+                      type="password"
+                      name="current_password"
+                      id="current_password"
+                    />
+                  </div>
+                  <div id="new-password-field" style="display: none">
+                    <label for="new_password">Nouveau mot de passe:</label>
+                    <input
+                      class="form-control"
+                      type="password"
+                      name="new_password"
+                      id="new_password"
+                    />
+                  </div>
+                  <div id="confirm-new-password-field" style="display: none">
+                    <label for="confirm_new_password"
+                      >Confirmez le nouveau mot de passe:</label
+                    >
+                    <input
+                      class="form-control"
+                      type="password"
+                      name="confirm_new_password"
+                      id="confirm_new_password"
+                    />
+                  </div>
+                  <br /><br />
+
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    id="forgot-password-link"
+                  >
+                    Mot de passe oublié ?
+                  </button>
+
+                  <button class="btn btn-primary" type="submit">
+                    Connexion
+                  </button>
+                </form>
+
+                {% if messages %}
+                <ul>
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+
+    <!-- Formulaire modal pour la réinitialisation du mot de passe -->
+    <div
+      class="modal fade"
+      id="forgotPasswordModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="forgotPasswordModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forgotPasswordModalLabel">
+              Mot de passe oublié
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="forgotPasswordForm" method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="forgotEmail">Adresse e-mail :</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="forgotEmail"
+                  name="forgotEmail"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Ajoutez ce script à la fin de votre template -->
+    <script>
+      $(document).ready(function () {
+        // Ouvrir le formulaire modal lorsqu'on clique sur "Mot de passe oublié ?"
+        $("#forgot-password-link").click(function () {
+          $("#forgotPasswordModal").modal("show");
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        var firstLogin = {{ first_login|yesno:"true,false" }};
+        if (firstLogin) {
+          $("#email-field").show();
+          $("#new-password-field").show();
+          $("#confirm-new-password-field").show();
+        } else {
+          $("#current-password-field").show();
+        }
+      });
+    </script>
+  </body>
+</html>

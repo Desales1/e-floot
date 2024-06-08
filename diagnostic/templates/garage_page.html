@@ -1,0 +1,192 @@
+{% extends 'dist/base.html' %}
+{% load static %}
+ {% block content %}
+
+       <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title">
+                <span
+                  class="page-title-icon bg-gradient-primary text-white me-2"
+                >
+                  <i class="mdi mdi-home"></i>
+                </span>
+                Dashboard
+              </h3>
+               {% if messages %}
+  <div>
+    {% for message in messages %}
+    <ul>
+      <li>{{message}}</li>
+    </ul>
+    {% endfor %}
+  </div>
+  {% endif %}
+            
+                 <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page">
+
+                    <span></span>Vue globale 
+                    <i
+                      class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"
+                    ></i>
+                  </li>
+                </ul>
+              </nav>
+             
+              <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page">
+
+                    <span></span>Espace garage
+                    <i
+                      class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"
+                    ></i>
+                  </li>
+                </ul>
+              </nav>
+           
+            </div>
+     
+            <div class="row">
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-danger card-img-holder text-white">
+                  <div class="card-body">
+                    <img
+                      src="{% static 'assets/images/dashboard/circle.svg' %}"
+                      class="card-img-absolute"
+                      alt="circle-image"
+                    />
+                    <h4 class="font-weight-normal mb-3">
+                      Nombre de voitures diagnostiquées
+                      <i class="fa fa-car fa-24px float-end"></i>
+                    </h4>
+                    <h2 class="mb-5">{{ diagnostics.count }}</h2>
+                    <!-- <h6 class="card-text">Increased by 60%</h6> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                  <div class="card-body">
+                    <img
+                      src="{% static 'assets/images/dashboard/circle.svg' %}"
+                      class="card-img-absolute"
+                      alt="circle-image"
+                    />
+                    <h4 class="font-weight-normal mb-3">
+                      Nombres de voitures assignées
+                      <i
+                        class="fa fa-tachometer fa-24px float-end"
+                      ></i>
+                    </h4>
+                    <h2 class="mb-5">{{ voitures.count }}</h2>
+                    <!-- <h6 class="card-text">Decreased by 10%</h6> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div
+                  class="card bg-gradient-success card-img-holder text-white"
+                >
+                  <div class="card-body">
+                    <img
+                      src="{% static 'assets/images/dashboard/circle.svg' %}"
+                      class="card-img-absolute"
+                      alt="circle-image"
+                    />
+                    <h4 class="font-weight-normal mb-3">
+                      Devis rejusés
+                      <i class="fa fa-id-badge  fa-24px float-end"></i>
+                    </h4>
+                    <h2 class="mb-5"></h2>
+                   <!-- <h6 class="card-text"></h6> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+           
+            <div class="row">
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Liste des voitures assignées</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                             <th>Immatriculation</th>
+                            <th>Modèle</th>
+                            <th>Année</th>
+                            <th>Symptômes</th>
+               
+                          </tr>
+                        </thead>
+                        <tbody>
+            {% for voiture in voitures %}
+            <tr>
+                <td>{{ voiture.immatriculation }}</td>
+                <td>{{ voiture.modele.nom }}</td>
+                <td>{{ voiture.annee_fabrication }}</td>
+                <td>{{ voiture.symptomes }}</td>
+              <td><a class="btn btn-success" href="{% url 'diagnostic' voiture.id %}">Faire un diagnostic</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div
+              class="d-sm-flex justify-content-center justify-content-sm-between"
+            >
+              <span
+                class="text-muted text-center text-sm-left d-block d-sm-inline-block"
+                >Copyright © 2023
+                <a href="https://www.bootstrapdash.com/" target="_blank"
+                  >BootstrapDash</a
+                >. All rights reserved.</span
+              >
+              <span
+                class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"
+                >Hand-crafted & made with
+                <i class="mdi mdi-heart text-danger"></i
+              ></span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'assets/vendors/chart.js/chart.umd.js' %}"></script>
+    <script src="{% static 'assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/misc.js' %}"></script>
+    <script src="{% static 'assets/js/settings.js' %}"></script>
+    <script src="{% static 'assets/js/todolist.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.cookie.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'assets/js/dashboard.js' %}"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>
+ {% endblock content %}
+

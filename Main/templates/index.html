@@ -1,0 +1,601 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <title>E-flot - HTML5 Template</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'assets/js/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/templatemo-scholar.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+</head>
+
+<body>
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <!-- ***** Logo Start ***** -->
+            <a href="{% url 'home' %}" class="logo">
+              <img src="{% static 'assets/images/ee copie 2.png' %}" alt="Logo E_FLOT"
+                style="width: 200px; height: auto;">
+
+            </a>
+            
+            <!-- ***** Logo End ***** -->
+            
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+              <li class="scroll-to-section"><a href="">Bienvenu {{request.user.username}}</a></li>
+              <li class="scroll-to-section">
+                <a href="#top" class="active">Acceuil</a>
+              </li>
+              <li class="scroll-to-section">
+                <a href="#services">Services</a>
+              </li>
+
+              <li class="scroll-to-section"><a href="#team">Equipes</a></li>
+              <li class="scroll-to-section">
+                <a href="#contact">Contactez-Nous</a>
+              </li>
+              {% if request.user.is_authenticated %}
+              <li class="scroll-to-section">
+                <a href="">
+                  <form action="{% url 'signout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">Deconnexion</button>
+                  </form>
+              </li>
+              </a>
+
+              {% else %}
+              <li class="scroll-to-section">
+                <a href="{% url 'connexion' %}">Connexion!</a>
+              </li>
+              {% endif %}
+            </ul>
+            <a class="menu-trigger">
+              <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+   {% if messages %}
+  <div>
+    {% for message in messages %}
+    <ul>
+      <li>{{message}}</li>
+    </ul>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="main-banner" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="owl-carousel owl-banner">
+            <div class="item item-1">
+              <div class="header-text">
+                <br /><br /><br />
+                <h2>Gérez votre flotte automobile avec facilité</h2>
+                <p>
+                  Optimisez l'efficacité de votre entreprise grâce à notre
+                  solution de gestion de flotte automobile. Simplifiez la
+                  maintenance, améliorez la productivité et réduisez les
+                  coûts.
+                </p>
+                <br /><br />
+                {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                  <h2>Consulter vos  données</h2>
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="{% url 'dashboard' %}">
+                      
+                      <label for="dashbord">Tableau de bord</label>
+                    </a>
+                  </div>
+                </div>
+                {% else %}
+                {% if request.user.role == 'normal' %}
+               
+                <h2>Ajouter une voiture pour diagnostic</h2>
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="{% url '_add_car' %}">
+                      
+                      <label for="dashbord">Ajouter une voiture</label>
+                    </a>
+                  </div>
+                </div>
+                {% endif %}
+                
+                {% endif %}
+              
+              
+                 <!-- <h2>Consultez vos devis et diagnostics</h2>
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="">
+                      <label for="dashbord">Mes devis et diagnostics</label>
+                    </a>f
+                  </div>
+                </div> -->
+              
+                {% else %}
+                <h2>Choisissez votre profil de connexion :</h2>
+
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="{% url 'login' %}?type=particulier">
+                      <label for="particulier">Vous êtes un particulier</label>
+                    </a>
+                  </div>
+                  <div class="main-button">
+                    <a href="{% url 'login' %}?type=entreprise">
+                      <label for="entreprise">Vous êtes une entreprise</label>
+                    </a>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="item item-2">
+              <div class="header-text">
+                <span class="category">Meilleur Résultat</span>
+                <h2>Obtenez le meilleur résultat de vos efforts</h2>
+                <p>
+                  Notre solution de gestion de flotte vous aide à maximiser
+                  les résultats de votre entreprise. Que vous soyez une petite
+                  entreprise ou une grande flotte, notre logiciel vous offre
+                  des solutions sur mesure.
+                </p>
+                <br /><br />
+                {% if request.user.is_authenticated %}
+                <h2>Consultez votre tableau de bord</h2>
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="">
+                      <label for="dashbord">Tableau de bord</label>
+                    </a>
+                  </div>
+                </div>
+                {% else %}
+                <h2>Choisissez votre profil de connexion :</h2>
+
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="{% url 'login' %}?type=particulier">
+                      <label for="particulier">Vous êtes un particulier</label>
+                    </a>
+                  </div>
+                  <div class="main-button">
+                    <a href="{% url 'login' %}?type=entreprise">
+                      <label for="entreprise">Vous êtes une entreprise</label>
+                    </a>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="item item-3">
+              <div class="header-text">
+                <span class="category">Suivi en ligne</span>
+                <h2>La gestion en ligne vous fait gagner du temps</h2>
+                <p>
+                  Notre plateforme de gestion de flotte automobile en ligne
+                  vous permet d'accéder à vos données n'importe où, n'importe
+                  quand. Simplifiez la gestion de votre flotte et économisez
+                  du temps précieux.
+                </p>
+                <br /><br />
+                {% if request.user.is_authenticated %}
+                <h2>Consultez votre tableau de bord</h2>
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="">
+                      <label for="dashbord">Tableau de bord</label>
+                    </a>
+                  </div>
+                </div>
+                {% else %}
+                <h2>Choisissez votre profil de connexion :</h2>
+
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="{% url 'login' %}?type=particulier">
+                      <label for="particulier">Vous êtes un particulier</label>
+                    </a>
+                  </div>
+                  <div class="main-button">
+                    <a href="{% url 'login' %}?type=entreprise">
+                      <label for="entreprise">Vous êtes une entreprise</label>
+                    </a>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="services section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="service-item">
+            <div class="icon">
+              <img src="{% static 'assets/images/entretien.png' %}" alt="Maintenance automobile" />
+            </div>
+            <div class="main-content">
+              <h4>Maintenance Automobile</h4>
+              <p>
+                Optimisez la performance de votre flotte en assurant une
+                maintenance régulière et efficace de vos véhicules.
+              </p>
+              <div class="main-button">
+                <a href="#">En savoir plus</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="service-item">
+            <div class="icon">
+              <img src="{% static 'assets/images/emplacement.png' %}" alt="Suivi des véhicules" />
+            </div>
+            <div class="main-content">
+              <h4>Suivi des Véhicules</h4>
+              <p>
+                Restez informé de l'emplacement et de l'état de chaque
+                véhicule de votre flotte grâce à notre système de suivi
+                avancé.
+              </p>
+              <div class="main-button">
+                <a href="#">En savoir plus</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="service-item">
+            <div class="icon">
+              <img src="{% static 'assets/images/tarification.png' %}" alt="Optimisation des trajets" />
+            </div>
+            <div class="main-content">
+              <h4>Optimisation Trajets</h4>
+              <p>
+                Économisez du temps et de l'argent en planifiant des
+                itinéraires efficaces pour vos véhicules.
+              </p>
+              <div class="main-button">
+                <a href="#">En savoir plus</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section about-us">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-1">
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                  aria-expanded="true" aria-controls="collapseOne">
+                  Par où commencer ?
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Commencez par évaluer les besoins spécifiques de votre
+                  flotte et déterminez les fonctionnalités les plus
+                  importantes pour votre gestion quotidienne.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Comment travaillons-nous ensemble ?
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Nous travaillons en étroite collaboration avec votre équipe
+                  pour comprendre vos besoins uniques et développer des
+                  solutions sur mesure pour votre entreprise.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Pourquoi notre solution est-elle la meilleure ?
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Notre solution offre une combinaison unique de
+                  fonctionnalités avancées, de convivialité et de support
+                  client exceptionnel.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  Bénéficions-nous du meilleur support ?
+                </button>
+              </h2>
+              <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Oui, notre équipe de support dévouée est disponible 24/7
+                  pour répondre à vos questions et résoudre tout problème
+                  éventuel.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 align-self-center">
+          <div class="section-heading">
+            <h6>À propos de Nous</h6>
+            <h2>
+              Qu'est-ce qui fait de nous le meilleur choix pour la gestion de
+              flotte automobile ?
+            </h2>
+            <p>
+              Nous nous engageons à fournir des solutions innovantes et
+              efficaces pour répondre à vos besoins de gestion de flotte
+              automobile, tout en offrant un service client de qualité
+              supérieure.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section fun-facts">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="wrapper">
+            <div class="row">
+              <div class="col-lg-3 col-md-6">
+                <div class="counter">
+                  <h2 class="timer count-title count-number" data-to="150" data-speed="1000"></h2>
+                  <p class="count-text">Clients Satisfaits</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="counter">
+                  <h2 class="timer count-title count-number" data-to="804" data-speed="1000"></h2>
+                  <p class="count-text">Heures de Formation</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="counter">
+                  <h2 class="timer count-title count-number" data-to="50" data-speed="1000"></h2>
+                  <p class="count-text">Entreprises Partenaires</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="counter end">
+                  <h2 class="timer count-title count-number" data-to="15" data-speed="1000"></h2>
+                  <p class="count-text">Années d'Expérience</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="team section" id="team">
+    <div class="container">
+      <div class="row">
+        {% for garage in garages %}
+        <div class="col-lg-3 col-md-6">
+          <div class="team-member">
+            <div class="main-content">
+              <img src="{{ garage.logo_garage.url }}" alt="logo du garage" />
+              <span class="category">{{ garage.service}}</span>
+              <h4>{{ garage.name }}</h4>
+              <ul class="social-icons">
+                <li>
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-linkedin"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <br /><br /><br />
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-us section" id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 align-self-center">
+          <div class="section-heading">
+            <h6>Contactez-Nous</h6>
+            <h2>Nous sommes à votre écoute</h2>
+            <p>
+              Notre équipe est disponible pour répondre à toutes vos questions
+              et vous assister dans la gestion de votre flotte automobile.
+              Contactez-nous par téléphone, email ou via notre formulaire en
+              ligne.
+            </p>
+            <br /><br />
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="contact-us-content">
+          <form id="contact-form" action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                  {% if user.is_authenticated %}
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <input
+                        type="name"
+                        name=" {{ request.user.username }}"
+                        id="name"
+                        placeholder="Votre nom..."
+                        autocomplete="on"
+                        value="{{ request.user.username }}"
+                        required
+                        readonly
+                      />
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <input
+                        type="text"
+                        name="{{user.email}}"
+                        id="email"
+                        value="{{user.email}}"
+                        pattern="[^ @]*@[^ @]*"
+                        placeholder="Votre e-mail..."
+                        required
+                        readonly
+                      />
+                    </fieldset>
+                  </div>
+                    {% else %}
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <input
+                        type="name"
+                        name="nom"
+                        id="name"
+                        placeholder="Votre nom..."
+                        autocomplete="on"
+                        required
+                      />
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        pattern="[^ @]*@[^ @]*"
+                        placeholder="Votre e-mail..."
+                        required=""
+                      />
+                    </fieldset>
+                    {% endif %}
+                   
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <textarea
+                        name="message"
+                        id="message"
+                        placeholder="Votre message..."
+                      ></textarea>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <button
+                        type="submit"
+                        id="form-submit"
+                        class="orange-button"
+                      >
+                        Envoyer le message
+                      </button>
+                    </fieldset>
+                  </div>
+                </div>
+              </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="col-lg-12">
+        <p>
+          Copyright © 2036 Scholar Organization. All rights reserved.
+          &nbsp;&nbsp;&nbsp; Design:
+          <a href="https://templatemo.com" rel="nofollow" target="_blank">TemplateMo</a>
+          Distribution:
+          <a href="https://themewagon.com" rel="nofollow" target="_blank">ThemeWagon</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'assets/js/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'assets/js/isotope.min.js' %}"></script>
+  <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+  <script src="{% static 'assets/js/counter.js' %}"></script>
+  <script src="{% static 'assets/js/custom.js' %}"></script>
+</body>
+
+</html>

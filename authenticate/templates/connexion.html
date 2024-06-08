@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>E-flot</title>
+    <link href="{% static 'assets/js/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-scholar.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+</head>
+<body>
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="{% url 'home' %}" class="logo">
+                            <h1>E_FLOT</h1>
+                        </a>
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{% url 'home' %}">Accueil</a></li>
+                            <li class="scroll-to-section"><a href="#" class="active">Connexion!</a></li>
+                        </ul>
+                        <a class="menu-trigger"><span>Menu</span></a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-banner" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="owl-carousel owl-banner">
+                        <div class="item item">
+                            <div class="header-text">
+                                <h2>Bienvenue sur la page de connexion</h2>
+                                <p>Optimisez l'efficacité de votre entreprise grâce à notre solution de gestion de flotte automobile.</p>
+                                <h2>Choisissez votre profil de connexion :</h2>
+                                {% if messages %}
+                                    <div class="messages">
+                                        {% for message in messages %}
+                                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="buttons">
+                                    <div class="main-button">
+                                        <a href="{% url 'login' %}?type=particulier"> un particulier</a>
+                                    </div>
+                                    <div class="main-button">
+                                        <a href="{% url 'login' %}?type=entreprise">une entreprise</a>
+                                    </div>
+                                    <div class="main-button">
+                                        <a href="{% url 'login' %}?type=admin">un administrateur</a>
+                                    </div>
+                                    <div class="main-button">
+                                        <a href="{% url 'login_garage' %}">un garage</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="col-lg-12">
+                <p>Copyright © 2036 Scholar Organization. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'assets/js/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'assets/js/counter.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+</body>
+</html>

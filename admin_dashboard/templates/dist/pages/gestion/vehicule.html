@@ -1,0 +1,115 @@
+{% extends 'dist/base.html' %} {% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white me-2">
+          <i class="mdi mdi-home"></i>
+        </span>
+        Dashboard
+      </h3>
+      <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">
+            <span></span>Détails vehicule
+            <i
+              class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"
+            ></i>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="main">
+      <div class="container">
+        <img
+          src="{{ voitures.photo_voiture.url }}"
+          alt="Photo du véhicule"
+          class="vehicle-image"
+        />
+        <div class="vehicle-details">
+          <h2>Détails du véhicule</h2>
+          <p><strong>Marque:</strong> {{voitures.modele.marque}}</p>
+          <p><strong>Modèle:</strong> {{voitures.modele}}</p>
+          <p><strong>Immatriculation:</strong> {{voitures.immatriculation}}</p>
+          <p><strong>Numéro de châssis:</strong> {{voitures.numero_chassi}}</p>
+          <p><strong>Numéro de série:</strong> {{voitures.numero_serie}}</p>
+          <p><strong>Couleur:</strong> {{voitures.couleur_voiture}}</p>
+          <p><strong>Kilométrage:</strong> {{voitures.kilometrage}} km</p>
+          <p><strong>Type de carburant:</strong> {{voitures.type_carburant}}</p>
+          <p><strong>Transmission:</strong> {{voitures.transmission}}</p>
+          <p><strong>Nombre de vitesses:</strong> {{voitures.nombre_de_vitesse}}</p>
+          <p><strong>Symptômes:</strong> {{voitures.symptomes}}</p>
+          <p>
+            <strong>Historique de maintenance:</strong> {{voitures.historique_maintenance}}
+          </p>
+          <p> {% if messages %}
+  <div>
+    {% for message in messages %}
+    <ul>
+      <li>{{message}}</li>
+    </ul>
+    {% endfor %}
+  </div>
+  {% endif %}</p>
+         
+        </div>
+      </div>
+    </div>
+    <style>
+   
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        width: 100%;
+        flex-grow: 1;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 100%;
+      }
+      .vehicle-image {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        margin-bottom: 20px;
+      }
+      .vehicle-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      }
+      .vehicle-details {
+        width: 100%;
+        text-align: left;
+      }
+      .vehicle-details h2 {
+        margin-top: 0;
+        color: #333;
+        text-align: center;
+      }
+      .vehicle-details p {
+        margin: 10px 0;
+        color: #555;
+      }
+      .vehicle-details p strong {
+        color: #333;
+      }
+    </style>
+
+
+
+{% endblock content %}

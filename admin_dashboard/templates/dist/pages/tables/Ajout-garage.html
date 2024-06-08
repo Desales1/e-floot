@@ -1,0 +1,241 @@
+{% extends 'dist/base.html' %}
+{% load static %}
+{% block content %}
+<!-- partial -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title"> E-FLOT</h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Tables</a></li>
+          <li class="breadcrumb-item active" aria-current="page">
+            E-FLOT
+          </li>
+        </ol>
+      </nav>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Ajout de garage</h4>
+            <form method="post" enctype="multipart/form-data" class="forms-sample">
+              {% csrf_token %}
+              <div class="form-group row">
+                <label for="nom_garage" class="col-sm-3 col-form-label">Nom du garage</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="name" id="nom_garage"
+                    placeholder="Nom du garage" />
+                </div>
+              </div>
+
+              <!-- Autres champs du formulaire -->
+              <div class="form-group row">
+                <label for="adresse" class="col-sm-3 col-form-label">Adresse</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="adresse" id="adresse" placeholder="Adresse du garage" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="num_tel" class="col-sm-3 col-form-label">Numero de telephone</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="telephone" id="telephone"
+                    placeholder="Telephone du garage" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="site_web" class="col-sm-3 col-form-label">Site web</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="site_web" id="site_web"
+                    placeholder="Site web du garage" />
+                </div>
+              </div>
+              <!-- Champ pour la photo de la voiture -->
+              <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Adresse e-mail</label>
+                <div class="col-sm-9">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Email du garage" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="horaires" class="col-sm-3 col-form-label">Horaires d'ouverture</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="horaire" id="horaire"
+                    placeholder="Horaires d'ouverture du garage" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="services" class="col-sm-3 col-form-label">Services proposés</label>
+                <div class="col-sm-9">
+                  <textarea class="form-control" name="service" id="service"
+                    placeholder="Services proposés par le garage"></textarea>
+                </div>
+              </div>
+              <!-- Champ pour la photo du garage -->
+              <div class="form-group row">
+                <label for="photo_garage" class="col-sm-3 col-form-label">Photo du garage</label>
+                <div class="col-sm-9">
+                  <input type="file" class="form-control" name="photo_garage" accept=".jpg, .jpeg, .png"
+                    id="file-upload" placeholder="Photo du garage" />
+                </div>
+              </div>
+              <!-- Champ pour le logo du garage -->
+              <div class="form-group row">
+                <label for="logo_garage" class="col-sm-3 col-form-label">logo du garage</label>
+                <div class="col-sm-9">
+                  <input type="file" class="form-control" name="logo_garage" accept=".jpg, .jpeg, .png"
+                    id="file-upload" placeholder="logo du garage" />
+                </div>
+              </div>
+            
+
+              <!-- Boutons de soumission et d'annulation -->
+              <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+              <a href="#" class="btn btn-light">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 grid-margin stretch-card ">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"></h4>
+
+            <img src="#" alt="Visionnage de l'image sélectionnée" id="file-preview" style="
+                        max-height: 100%;
+                        max-width: 100%;
+                        align-items: center;
+                      " />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- content-wrapper ends -->
+  <!-- partial:partials/_footer.html -->
+  <footer class="footer">
+    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+      <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023
+        <a href="https://www.bootstrapdash.com/" target="_blank">BootstrapDash</a>. All rights reserved.</span>
+      <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with
+        <i class="mdi mdi-heart text-danger"></i></span>
+    </div>
+  </footer>
+  <!-- partial -->
+</div>
+<!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script>
+  document
+    .getElementById("marque_voiture_select")
+    .addEventListener("change", function () {
+      var select = document.getElementById("marque_voiture_select");
+      var nouvelleMarqueInput = document.getElementById("nouvelle_marque");
+
+      if (select.value === "autre") {
+        nouvelleMarqueInput.style.display = "block";
+      } else {
+        nouvelleMarqueInput.style.display = "none";
+      }
+    });
+</script>
+<script>
+  // Sélectionnez l'élément d'entrée de type fichier et l'élément image
+  const fileUpload = document.getElementById("file-upload");
+  const filePreview = document.getElementById("file-preview");
+
+  // Ajoutez un écouteur d'événements pour détecter les changements dans le fichier sélectionné
+  fileUpload.addEventListener("change", function () {
+    // Vérifiez si un fichier a été sélectionné
+    if (fileUpload.files && fileUpload.files[0]) {
+      // Créez un objet URL pour l'aperçu de l'image
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // Mettez à jour la source de l'image avec l'URL de l'aperçu
+        filePreview.src = e.target.result;
+      };
+      // Chargez le fichier en tant que données URL
+      reader.readAsDataURL(fileUpload.files[0]);
+    }
+  });
+</script>
+
+<script>
+  // Fonction pour filtrer les modèles en fonction de la marque sélectionnée
+  function filterModelsByBrand() {
+    var selectedBrandId = document.getElementById("marque_voiture_select").value;
+    if (selectedBrandId !== "") {
+      fetch('/get_models/' + selectedBrandId)
+        .then(response => response.json())
+        .then(data => {
+          var select = document.getElementById("modele_select");
+          select.innerHTML = ""; // clear existing options
+          data.forEach(function (item) {
+            var option = document.createElement("option");
+            option.value = item.id;
+            option.text = item.nom;
+            select.appendChild(option);
+          });
+        });
+    }
+  }
+
+  // Event listener pour filtrer les modèles lorsqu'une marque est sélectionnée
+  document.getElementById("marque_voiture_select").addEventListener("change", filterModelsByBrand);
+
+  // Fonction pour afficher/cacher le champ pour ajouter une nouvelle marque
+  function toggleNewBrandInput() {
+    var select = document.getElementById("marque_voiture_select");
+    var input = document.getElementById("nouvelle_marque");
+    if (select.value === "autre") {
+      input.style.display = "block";
+    } else {
+      input.style.display = "none";
+      input.value = "";
+    }
+  }
+
+  // Event listener pour afficher/cacher le champ pour ajouter une nouvelle marque
+  document.getElementById("marque_voiture_select").addEventListener("change", toggleNewBrandInput);
+
+  // Fonction pour afficher/cacher le champ pour ajouter un nouveau modèle
+  function toggleNewModelInput() {
+    var select = document.getElementById("modele_select");
+    var input = document.getElementById("nouveau_modele");
+    if (select.value === "autre") {
+      input.style.display = "block";
+    } else {
+      input.style.display = "none";
+      input.value = "";
+    }
+  }
+
+  // Event listener pour afficher/cacher le champ pour ajouter un nouveau modèle
+  document.getElementById("modele_select").addEventListener("change", toggleNewModelInput);
+</script>
+
+
+<script src="{% static 'assets/js/off-canvas.js' %}"></script>
+<script src="{% static 'assets/js/misc.js' %}"></script>
+<script src="{% static 'assets/js/settings.js' %}"></script>
+<script src="{% static 'assets/js/todolist.js' %}"></script>
+<script src="{% static 'assets/js/jquery.cookie.js' %}"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<!-- End custom js for this page -->
+</body>
+
+</html>
+{% endblock content %}

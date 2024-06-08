@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Soumettre un Diagnostic</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/ti-icons/css/themify-icons.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/font-awesome/css/font-awesome.min.css' %}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css' %}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/ti-icons/css/themify-icons.css' %}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/font-awesome/css/font-awesome.min.css' %}"
+    />
+
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">
+              Soumettre un Diagnostic pour {{ voiture.modele.nom }}
+            </h1>
+            <form method="post">
+              {% csrf_token %}
+              <label for="problems">Problèmes:</label>
+              <textarea class="form-control" name="problems" required></textarea
+              ><br />
+
+              <label for="solutions">Solutions:</label>
+              <textarea
+                class="form-control"
+                name="solutions"
+                required
+              ></textarea
+              ><br />
+
+              <label for="duree_diagnostic"
+                >Durée du Diagnostic (heures):</label
+              >
+              <input
+                class="form-control"
+                type="number"
+                name="duree_diagnostic"
+                required
+              /><br />
+
+              <label for="method_diagnostic">Méthode de Diagnostic:</label>
+              <textarea
+                class="form-control"
+                name="method_diagnostic"
+                required
+              ></textarea
+              ><br />
+
+             
+              <br><br>
+              <button class="btn btn-primary" type="submit">Soumettre</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </body>
+</html>

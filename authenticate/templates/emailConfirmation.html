@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation de votre email</title>
+    <style>
+        body {
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .email-header {
+            text-align: center;
+            padding: 10px 0;
+        }
+        .email-header h1 {
+            margin: 0;
+            color: #333333;
+        }
+        .email-body {
+            padding: 20px;
+        }
+        .email-body p {
+            color: #333333;
+            line-height: 1.5;
+        }
+        .email-footer {
+            text-align: center;
+            padding: 20px;
+            color: #777777;
+            font-size: 12px;
+        }
+        .confirm-button {
+            display: inline-block;
+            padding: 10px 30px;
+            color: #ffffff;
+            background-color: #7a6ad8;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Confirmez votre email</h1>
+        </div>
+        <div class="email-body">
+            <p>Vous avez reçu ce message car votre adresse e-mail est enregistrée sur notre site Web. Cliquez sur le bouton ci-dessous pour vérifier votre adresse e-mail et confirmer que vous êtes le propriétaire de ce compte.</p>
+            <p style="text-align: center;">
+                <a href="{{ protocol }}://{{ domain }}/confirm-email/{{ token }}" class="confirm-button" target="_blank" rel="noopener noreferrer">
+                    CONFIRM YOUR EMAIL
+                </a>
+            </p>
+            <p>Si vous n'avez pas demandé cette vérification, veuillez ignorer cet e-mail.</p>
+            <p>Merci,<br>L'équipe de Support</p>
+        </div>
+        <div class="email-footer">
+            <p>Cet e-mail sera associé de manière unique à votre compte.</p>
+        </div>
+    </div>
+</body>
+</html>

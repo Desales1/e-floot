@@ -1,0 +1,108 @@
+{% extends 'dist/base.html' %} {% block content %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white me-2">
+          <i class="mdi mdi-home"></i>
+        </span>
+        Dashboard
+      </h3>
+      <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">
+            <span></span>Détails du garage
+            <i
+              class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"
+            ></i>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <style>
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        width: 100%;
+        flex-grow: 1;
+      }
+      .container {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 100%;
+        overflow: hidden; /* Pour corriger le problème de débordement de l'image */
+      }
+      .garage-image {
+        width: 100%;
+        max-width: 100%;
+        align-items: center;
+        height: 50%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+      .garage-details {
+        text-align: left;
+        padding: 20px 0;
+      }
+      .garage-details h2 {
+        margin: 0;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .garage-details p {
+        margin: 10px 0;
+        color: #555;
+      }
+      .garage-details p strong {
+        color: #333;
+      }
+      .garage-details ul {
+        margin: 10px 0;
+        padding-left: 20px;
+        color: #555;
+      }
+    </style>
+
+    <div class="main">
+      <div class="container">
+        <img
+          src="{{garages.photo_garage.url }}"
+          alt="Photo du garage"
+          class="garage-image"
+        />
+        <div class="garage-details">
+          <h2>Informations sur le garage</h2>
+          <p><strong>Nom du garage:</strong> {{garages.name}}</p>
+          <p><strong>Adresse:</strong> {{garages.adresse}}</p>
+          <p><strong>Numéro de téléphone:</strong> {{garages.telephone}}</p>
+          <p>
+            <strong>Site web:</strong>
+            <a href="{{garages.site_web}}">{{garages.site_web}}</a>
+          </p>
+          <p><strong>Adresse e-mail:</strong> {{garages.email}}</p>
+          <p><strong>Horaires d'ouverture:</strong> {{garages.horaire}}</p>
+          <p style="margin-bottom: 0"><strong>Services proposés:</strong></p>
+          <ul>
+            <li>{{garages.service}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% if messages %}
+    <div>
+      {% for message in messages %}
+      <ul>
+        <li>{{message}}</li>
+      </ul>
+      {% endfor %}
+    </div>
+    {% endif %} {% endblock content %}
+  </div>
+</div>

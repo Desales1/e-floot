@@ -1,0 +1,440 @@
+{% extends 'dist/base.html' %}
+{% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white me-2">
+          <i class="mdi mdi-home"></i>
+        </span>
+        Dashboard
+      </h3>
+      <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">
+            <span></span>Devis et reçus
+            <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-md-5 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Faire un devis</h4>
+ <form method="post" class="forms-sample">
+
+      {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+  {% csrf_token %}
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Titre du devis :</label>
+    <div class="col-sm-9">
+      <input class="form-control" type="text" id="title" name="title" required oninput="updateTitle()" />
+    </div>
+  </div>
+  <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Sélectionner le diagnostic </label>
+            <div class="col-sm-9">
+                <select class="form-control" id="diagnostic" name="diagnostic" required>
+                    <option value="">-- Sélectionner --</option>
+                    {% for diagnostic in diagnostics %}
+                        <option value="{{ diagnostic.id }}">{{ diagnostic.garage.name }} - {{ diagnostic.date_add }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+       
+  <fieldset>
+    <div class="form-group row">
+      <div id="fields-container">
+        <!-- Les champs de formulaire seront ajoutés ici -->
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Commentaire :</label>
+    <div class="col-sm-9">
+        <input class="form-control" type="text" id="commentaire" name="commentaire" required oninput="updateComment()" />
+      </div>
+   
+  </div>
+  <button type="button" id="add-field-btn" class="btn btn-gradient-secondary me-2">Ajouter un champ</button>
+  <button class="btn btn-gradient-primary me-2" type="submit">Créer le devis</button>
+</form>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="col-md-7 grid-margin stretch-card print-container">
+        <div class="card">
+          <div class="card-body">
+           
+            <div class="container ">
+              <h1 id="recu-title">Reçu</h1>
+        
+              <header id="header">
+              
+    
+      <!-- affichage de l'addresse du garage ici -->
+
+              </header>
+
+    <article>
+    <h1>Recipient</h1>
+    <address class="norm">
+      <h4>Jan Denean Banister</h4>
+      <p>name@client.com</p>
+      <p>1613 bethany church road, belton, South</p>
+      <p>Carolina, 29627, USA</p>
+      <p>Phone: 1-864-933-0793</p>
+    </address>
+    
+    
+    <table class="meta">
+        <tr>
+            <th><span>Invoice #</span></th>
+            <td><span></span></td>
+        </tr>
+        <tr>
+          <th><span>Date diagnostic</span></th>
+          {% for diagnostic in diagnostics %}
+    <td id="date_diagnostic">
+    </td>
+    {% endfor %}
+  </tr>
+      <!-- <tr>
+        <th><span>Amount Due</span></th>
+        <td><span id="prefix">$</span><span>600.00</span></td>
+      </tr> -->
+    </table>
+
+    <table class="inventory">
+      <thead>
+        <tr>
+          <th><span>S. No</span></th>
+          <th><span>Titre</span></th>
+          <!-- <th><span>Type</span></th> -->
+          <th><span>Description</span></th>
+          <th><span>Prix</span></th>
+        </tr>
+      </thead>
+      <tbody id="recu-fields">
+        <!-- Les champs de devis seront affichés ici en temps réel -->
+      </tbody>
+    </table>
+    <table class="sign">
+      <tr>
+        <td><img src="signature.png" alt="sdd"></td>
+      </tr>
+    </table>
+    <table class="balance" id="balance">
+      <tr>
+        <th><span>Total</span></th>
+        <td><span data-prefix id="total-prix">F.CFA</span><span></span></td>
+      </tr>
+    </table>
+  </article>
+  <aside>
+    <h1><span>Notes</span></h1>
+    <div>
+      <p id="recu-commentaire" style="align-items: center;">Ajouter un commentaire</p>
+    </div>
+  </aside>
+</div>
+
+</div>
+</div>
+</div>
+<button class="btn btn-gradient-primary me-2" onclick="window.print()">Imprimer le reçu</button>
+    </div>
+
+    <!-- script pour ajouter de nouveaux champs -->
+<script>
+  let fieldCount = 0;
+  let total_prix = 0;
+  const addFieldBtn = document.getElementById("add-field-btn");
+  const fieldsContainer = document.getElementById("fields-container");
+  const recuFieldsContainer = document.getElementById("recu-fields");
+  const totalPrixDisplay = document.getElementById("balance");
+
+ 
+
+  addFieldBtn.addEventListener("click", () => {
+    fieldCount++;
+    const fieldHTML = `
+      <div class="form-group row" id="field-group-${fieldCount}">
+        <label class="col-sm-3 col-form-label">Libellé :</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" name="field_label_${fieldCount}" required oninput="updateField(${fieldCount})">
+        </div>
+        <label class="col-sm-3 col-form-label">Type :</label>
+        <div class="col-sm-9">
+          <select class="form-control" name="field_type_${fieldCount}" onchange="updateField(${fieldCount})">
+            <option value="text">Texte</option>
+            <option value="number">Nombre</option>
+            <option value="date">Date</option>
+          </select>
+        </div>
+        <label class="col-sm-3 col-form-label">Valeur :</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" name="field_value_${fieldCount}" required oninput="updateField(${fieldCount})">
+        </div>
+        <label class="col-sm-3 col-form-label">Prix :</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="number" step="0.01" name="field_prix_${fieldCount}" required oninput="updateField(${fieldCount})">
+        </div>
+      </div>`;
+    const div = document.createElement("div");
+    div.innerHTML = fieldHTML;
+    fieldsContainer.appendChild(div);
+
+    // Ajouter un aperçu du champ dans le reçu
+    const recuFieldHTML = `
+      <tr class="field" id="recu-field-${fieldCount}">
+        <td><span>${fieldCount}</span></td>
+        <td><span id="recu-label-${fieldCount}"></span></td>
+        <td><span id="recu-type-${fieldCount}"></span></td>
+        <td><span id="recu-value-${fieldCount}"></span></td>
+        <td><span id="recu-prix-${fieldCount}"></span></td>
+      </tr>`;
+    recuFieldsContainer.innerHTML += recuFieldHTML;
+  });
+
+  function updateTitle() {
+    const title = document.getElementById("title").value;
+    document.getElementById("recu-title").textContent = title;
+  }
+function updateComment(){
+  const commentaire = document.getElementById('commentaire').value;
+  document.getElementById('recu-commentaire').textContent = commentaire;
+}
+  function updateField(fieldId) {
+    const label = document.querySelector(`input[name="field_label_${fieldId}"]`).value;
+    const type = document.querySelector(`select[name="field_type_${fieldId}"]`).value;
+    const value = document.querySelector(`input[name="field_value_${fieldId}"]`).value;
+    const prix = document.querySelector(`input[name="field_prix_${fieldId}"]`).value;
+
+    document.getElementById(`recu-label-${fieldId}`).textContent = label;
+    document.getElementById(`recu-type-${fieldId}`).textContent = type;
+    document.getElementById(`recu-value-${fieldId}`).textContent = value;
+    document.getElementById(`recu-prix-${fieldId}`).textContent = prix;
+
+    // Recalculate total prix
+    calculateTotalPrix();
+}
+
+
+  function calculateTotalPrix() {
+    total_prix = 0;
+    for (let i = 1; i <= fieldCount; i++) {
+      const prix = parseFloat(document.querySelector(`input[name="field_prix_${i}"]`).value) || 0;
+      total_prix += prix;
+    }
+    document.getElementById("total-prix").textContent = total_prix.toFixed(2);
+  }
+</script>
+
+
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+         
+          const diagnosticSelect = document.getElementById("diagnostic");
+          const header = document.getElementById("header");
+          const date_diagnostic = document.getElementById('date_diagnostic');
+          
+
+            diagnosticSelect.addEventListener("change", function() {
+              const selectedDiagnosticId = this.value;
+              fetch(`/get_diagnostic_details/${selectedDiagnosticId}/`)
+              .then(response => response.json())
+              .then(data => {
+                        header.innerHTML = `
+                            <address>
+                                <p>${data.garage_name}</p>
+                                <p>${data.garage_email}</p>
+                                <p>${data.garage_address}</p>
+                                <p>Tel: ${data.garage_telephone}</p>
+                                <p>Business Number: ${data.garage_business_number}</p>
+                            </address>
+                            <span><img alt="Logo" src="${data.garage_logo}"></span>
+                            
+                            `;
+                            date_diagnostic.innerHTML = `
+                            <span>${data.date_diagnostic}</span>
+                        
+                        `;
+
+                    });
+            });
+        });
+    </script>
+
+
+    <!-- fin script pour ajouter de nouveaux champs -->
+  </div>
+</div>
+</div>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <style>
+              body {
+                font-family: Arial, sans-serif;
+              }
+             
+           /* heading */
+
+h1 { font: bold 100% sans-serif; letter-spacing: 0.5em; text-align: center; text-transform: uppercase; }
+
+/* table */
+
+table { font-size: 75%; table-layout: fixed; width: 100%; }
+table { border-collapse: separate; border-spacing: 2px; }
+th, td { border-width: 1px; padding: 0.5em; position: relative; text-align: left; }
+th, td { border-radius: 0.25em; border-style: solid; }
+th { background: #EEE; border-color: #BBB; }
+td { border-color: #DDD; }
+
+
+/* header */
+
+#header { margin: 0 0 3em; }
+#header:after { clear: both; content: ""; display: table; }
+
+#recu-title { background: #e40101; border-radius: 0.25em; color: #FFF; margin: 0 0 1em; padding: 0.5em 0; }
+header address { float: left; font-size: 95%; font-style: normal; line-height: 1.25; margin: 0 1em 1em 0; }
+article address.norm h4 {
+	font-size: 125%;
+	font-weight: bold;
+}
+article address.norm { float: left; font-size: 95%; font-style: normal; font-weight: normal; line-height: 1.25; margin: 0 1em 1em 0; }
+#header address p { margin: 0 0 0.25em; }
+#header span, header img { display: block; float: right; }
+#header span { margin: 0 0 1em 1em; max-height: 25%; max-width: 60%; position: relative; }
+#header img { max-height: 100%; max-width: 100%; }
+#header input { cursor: pointer; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; height: 100%; left: 0; opacity: 0; position: absolute; top: 0; width: 100%; }
+
+/* article */
+
+article, article address, table.meta, table.inventory { margin: 0 0 3em; }
+article:after { clear: both; content: ""; display: table; }
+article h1 { clip: rect(0 0 0 0); position: absolute; }
+
+article address { float: left; font-size: 125%; font-weight: bold; }
+
+/* table meta & balance */
+
+table.meta, table.balance { float: right; width: 36%; }
+table.meta:after, table.balance:after { clear: both; content: ""; display: table; }
+
+/* table meta */
+
+table.meta th { width: 40%; }
+table.meta td { width: 60%; }
+
+/* table items */
+
+table.inventory { clear: both; width: 100%; }
+table.inventory th:first-child {
+	width:50px;
+}
+
+table.inventory th:nth-child(2) {
+	width:150px;
+}
+table.inventory th:last-child {
+	width:100px;
+}
+table.inventory th { font-weight: bold; text-align: center; }
+
+table.inventory td:nth-child(1) { width: 26%; }
+table.inventory td:nth-child(2) { width: 38%; }
+table.inventory td:nth-child(3) { text-align: right; width: 12%; }
+table.inventory td:nth-child(4) { text-align: right; width: 12%; }
+table.inventory td:nth-child(5) { text-align: right; width: 12%; }
+
+/* table balance */
+
+table.balance th, table.balance td { width: 50%; }
+table.balance td { text-align: right; }
+
+/* aside */
+
+aside h1 { border: none; border-width: 0 0 1px; margin: 0 0 1em; }
+aside h1 { border-color: #999; border-bottom-style: solid; }
+
+table.sign {
+	float: left;
+	width: 220px;
+}
+table.sign img {
+	width: 100%;
+}
+table.sign tr td {
+	border-color: transparent;
+}
+ @media print {
+            body * {
+                visibility: hidden;
+            }
+            .print-container, .print-container * {
+                visibility: visible;
+            }
+            .print-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+
+        .norm {
+              font-family: Arial, sans-serif;
+              color: #333;
+              margin-bottom: 20px;
+              line-height: 1.6;
+          }
+
+          .norm h4 {
+              font-size: 18px;
+              margin-bottom: 5px;
+              font-weight: bold;
+          }
+
+          .norm p {
+              margin: 0;
+              font-size: 14px;
+          }
+
+          .norm p + p {
+              margin-top: 5px;
+          }
+
+        .meta, .inventory, .sign, .balance {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .meta th, .inventory th, .balance th {
+            text-align: left;
+        }
+
+        .meta td, .inventory td, .balance td {
+            border: 1px solid #1c1b1b;
+            padding: 8px;
+        }
+
+        .meta th, .inventory th, .balance th {
+            background-color: #f2f2f2e3;
+        }
+            </style>
+{% endblock content %}
