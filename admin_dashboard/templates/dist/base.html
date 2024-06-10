@@ -341,7 +341,12 @@
               </a>
             </li>
             <li class="nav-item">
+              {% if request.user.is_superuser %}
               <a class="nav-link" href="{% url 'dashboard' %}">
+                {% endif %}
+                {% if request.user.role == "garage" %}
+                <a class="nav-link" href="{% url 'garage_page' %}">
+                {% endif %}
                 <span class="menu-title">Dashboard</span>
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
@@ -474,7 +479,7 @@
               <div class="collapse" id="tables">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'create_devis' %}"
+                    <a class="nav-link" href=""
                       >Faire un devis</a
                     >
                   </li>

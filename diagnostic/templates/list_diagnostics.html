@@ -51,7 +51,12 @@
                     <td>{{ diagnostic.duree_diagnostic }} heures</td>
                     <td>{{ diagnostic.method_diagnostic }}</td>
                     <td>
-                      <a href="{% url 'modifier_diagnostic' diagnostic.id %}" class="btn btn-primary">Modifier </a>
+                      {% if request.user.role == "garage" %}
+                      <a href="{% url 'create_devis' diagnostic.id %}" class="btn btn-primary">Faire un devis </a>
+                      {% endif %}
+                      {% if request.user.is_superuser %}
+                      <a href="{% url 'consulter_diagnostic' diagnostic.id %}" class="btn btn-primary">Consulter </a>
+                      {% endif %}
                       <form action="{% url 'supprimer_diagnostic' diagnostic.id %}" method="post" style="display: inline;">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Supprimer</button>

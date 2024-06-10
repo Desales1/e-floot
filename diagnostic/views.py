@@ -116,7 +116,7 @@ def garage_page(request):
 
 
 
-def create_devis(request):
+def create_devis(request, diagnostic_id=None):
     if request.method == 'POST':
         title = request.POST.get('title')
         commentaire = request.POST.get('commentaire')
@@ -124,7 +124,6 @@ def create_devis(request):
         
         # Récupérer l'instance unique de Diagnostic
         diagnostic = get_object_or_404(Diagnostic, pk=diagnostic_id, garage=request.user.garage)
-        
         
         devis = Devis(title=title, diagnostic=diagnostic, commentaire=commentaire)
         devis.save()
@@ -147,7 +146,19 @@ def create_devis(request):
         return redirect('list_devis')  # Rediriger vers la liste des devis après la création
 
     diagnostics = Diagnostic.objects.filter(garage=request.user.garage)
-    return render(request, 'create_devis.html', {'diagnostics': diagnostics})
+    selected_diagnostic = None
+    if diagnostic_id:
+        selected_diagnostic = get_object_or_404(Diagnostic, pk=diagnostic_id, garage=request.user.garage)
+    
+    return render(request, 'create_devis.html', {
+        'diagnostics': diagnostics,
+        'selected_diagnostic': selected_diagnostic
+    })
+
+def consulter_diagnostic(request, diagnostic_id):
+    diagnostic = get_object_or_404(Diagnostic, pk=diagnostic_id)
+    voiture = diagnostic.vehicule
+    return render(request, 'consulter_diagnostic.html', {'diagnostic': diagnostic, 'voiture': voiture})
 
 
 

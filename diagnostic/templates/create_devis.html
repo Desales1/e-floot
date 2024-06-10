@@ -42,13 +42,15 @@
     </div>
   </div>
   <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Sélectionner le diagnostic </label>
-            <div class="col-sm-9">
-                <select class="form-control" id="diagnostic" name="diagnostic" required>
-                    <option value="">-- Sélectionner --</option>
-                    {% for diagnostic in diagnostics %}
-                        <option value="{{ diagnostic.id }}">{{ diagnostic.garage.name }} - {{ diagnostic.date_add }}</option>
-                    {% endfor %}
+    <label class="col-sm-3 col-form-label">Sélectionner le diagnostic </label>
+    <div class="col-sm-9">
+      <select class="form-control" id="diagnostic" name="diagnostic" required>
+        <option value="">-- Sélectionner --</option>
+        {% for diagnostic in diagnostics %}
+          <option value="{{ diagnostic.id }}" {% if selected_diagnostic and diagnostic.id == selected_diagnostic.id %}selected{% endif %}>
+            {{ diagnostic.garage.name }} - {{ diagnostic.date_add }}
+          </option>
+        {% endfor %}
                 </select>
             </div>
         </div>

@@ -1,0 +1,122 @@
+{% extends 'dist/base.html' %}
+{% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white me-2">
+          <i class="mdi mdi-home"></i>
+        </span>
+        Dashboard
+      </h3>
+      <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">
+            <span></span>Détails du véhicule et du diagnostic
+            <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="main">
+      <div class="container">
+        <img
+          src="{{ voiture.photo_voiture.url }}"
+          alt="Photo du véhicule"
+          class="vehicle-image"
+        />
+        <div class="vehicle-details">
+          <h2>Détails du véhicule</h2>
+          <p><strong>Marque:</strong> {{ voiture.modele.marque }}</p>
+          <p><strong>Modèle:</strong> {{ voiture.modele }}</p>
+          <p><strong>Immatriculation:</strong> {{ voiture.immatriculation }}</p>
+          <p><strong>Numéro de châssis:</strong> {{ voiture.numero_chassi }}</p>
+          <p><strong>Numéro de série:</strong> {{ voiture.numero_serie }}</p>
+          <p><strong>Couleur:</strong> {{ voiture.couleur_voiture }}</p>
+          <p><strong>Kilométrage:</strong> {{ voiture.kilometrage }} km</p>
+          <p><strong>Type de carburant:</strong> {{ voiture.type_carburant }}</p>
+          <p><strong>Transmission:</strong> {{ voiture.transmission }}</p>
+          <p><strong>Nombre de vitesses:</strong> {{ voiture.nombre_de_vitesse }}</p>
+          <p><strong>Symptômes:</strong> {{ voiture.symptomes }}</p>
+          <p><strong>Historique de maintenance:</strong> {{ voiture.historique_maintenance }}</p>
+        </div>
+
+        <div class="diagnostic-details">
+          <h2>Détails du diagnostic</h2>
+          <p><strong>Date d'ajout :</strong> {{ diagnostic.date_add }}</p>
+          <p><strong>Garage :</strong> {{ diagnostic.garage.name }}</p>
+          <p><strong>Problèmes :</strong> {{ diagnostic.problems }}</p>
+          <p><strong>Solutions :</strong> {{ diagnostic.solutions }}</p>
+          <p><strong>Durée du diagnostic :</strong> {{ diagnostic.duree_diagnostic }} heures</p>
+          <p><strong>Méthode de diagnostic :</strong> {{ diagnostic.method_diagnostic }}</p>
+        </div>
+
+        {% if messages %}
+          <div>
+            {% for message in messages %}
+            <ul>
+              <li>{{ message }}</li>
+            </ul>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      width: 100%;
+      flex-grow: 1;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 100%;
+    }
+    .vehicle-image {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 20px;
+    }
+    .vehicle-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    .vehicle-details, .diagnostic-details {
+      width: 100%;
+      text-align: left;
+    }
+    .vehicle-details h2, .diagnostic-details h2 {
+      margin-top: 0;
+      color: #333;
+      text-align: center;
+    }
+    .vehicle-details p, .diagnostic-details p {
+      margin: 10px 0;
+      color: #555;
+    }
+    .vehicle-details p strong, .diagnostic-details p strong {
+      color: #333;
+    }
+  </style>
+</div>
+
+{% endblock content %}
